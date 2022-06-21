@@ -51,6 +51,7 @@
             this.View_R.Name = "View_R";
             this.View_R.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.View_R.Size = new System.Drawing.Size(272, 292);
+            this.View_R.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.View_R.TabIndex = 0;
             this.View_R.TabStop = false;
             this.View_R.UseCompatibleStateImageBehavior = false;

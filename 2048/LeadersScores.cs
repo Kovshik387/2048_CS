@@ -29,6 +29,32 @@ namespace _2048
                     leaders.Add(line);
             }
 
+            List<string> leaders_temp = new List<string>();
+
+            for (int i = 0; i < leaders.Count; i++)
+            {
+                string[] temp = (leaders[i].Split(new char[] { '\t' }));
+
+                leaders_temp.Add(temp[0]);
+            }
+
+            for (int i = 0; i < leaders.Count;i++)
+            {
+                for (int j = 0; j < leaders.Count - 1; j++)
+                {
+                    if (int.Parse(leaders_temp[j]) < int.Parse(leaders_temp[j +1]))
+                    {
+                        string Temp_Int = leaders_temp[j];
+                        string Temp_String = leaders[j];
+
+                        leaders_temp[j] = leaders_temp[j + 1];
+                        leaders[j] = leaders[j + 1];
+
+                        leaders_temp[j + 1] = Temp_Int;
+                        leaders[j + 1] = Temp_String;
+                    }
+                }
+            }
 
             for (int i = 0; i < leaders.Count; i++)
             {
