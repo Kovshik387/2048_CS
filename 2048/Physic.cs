@@ -7,16 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using _2048;
+using System.IO;
 
 namespace _2048
 {
     public partial class Game4 : Form
     {
-        private int[,] Field = new int[4, 4]; // игровое поле
-        private Label[,] Labels = new Label[4,4]; // поле значений 
+        private int[,] Field = new int[4, 4];
+        private Label[,] Labels = new Label[4,4];
         private PictureBox[,] pics = new PictureBox[4, 4];
         private int score = 0;
         bool GameOverLeft, GameOverRight, GameOverUp, GameOverDown;
+        public static string NameProfile;
 
         public Game4()
         {
@@ -35,11 +38,19 @@ namespace _2048
 
         private void GameOverWindow()
         {
-            MessageBox.Show("Конец Игры!", ":(");
+            MessageBox.Show("Конец Игры!", "");
             Refresh.Enabled = true;
             Rating.Enabled = true;
             Refresh.Visible = true;
             Rating.Visible = true;
+
+            if (NameProfile != null)
+            {
+                using (StreamWriter file = new StreamWriter("..//..//scores/Data.txt",true))
+                {
+                    file.WriteLine(score.ToString() + "\t" + NameProfile);
+                }
+            }
         }
 
         private void GameFalse()
@@ -62,9 +73,7 @@ namespace _2048
             score = 0;
             Score_.Text = score.ToString();
             Refresh.Visible = false;
-            Rating.Visible = false;
             Refresh.Enabled = false;
-            Rating.Enabled = false;
         }
 
         private void CreateMap()
@@ -160,6 +169,32 @@ namespace _2048
             pics[NumA, NumB].BringToFront();
         }
 
+        private void Start_Game_Click(object sender, EventArgs e)
+        {
+            Start_Game.Visible  = false;
+            Start_Game.Enabled  = false;
+            Profile.Visible     = false;
+            Profile.Enabled     = false;
+            Rating.Enabled      = false;
+            Rating.Visible      = false;
+
+        }
+
+        private void Profile_Click(object sender, EventArgs e)
+        {
+            Profile_Form prof = new Profile_Form();
+
+            prof.ShowDialog();
+
+        }
+
+        private void Rating_Click(object sender, EventArgs e)
+        {
+            LeadersScores lead = new LeadersScores();
+
+            lead.ShowDialog();
+        }
+
         private void ChangeColor(int sum,int j, int i)
         {
             if (sum % 1024 == 0)     pics[j, i].BackColor  = Color.FromArgb(239, 197, 63);
@@ -171,6 +206,15 @@ namespace _2048
             else if (sum % 16 == 0)  pics[j, i].BackColor  = Color.FromArgb(245, 149, 101);
             else if (sum % 8 == 0)   pics[j, i].BackColor  = Color.FromArgb(242, 177, 121);
             else if (sum % 4 == 0)   pics[j, i].BackColor  = Color.FromArgb(238, 223, 202);
+            else if (sum % 2048 == 0) 
+            {
+                pics[j, i].BackColor = Color.FromArgb(238, 223, 202);
+                Refresh.Enabled = true;
+                Rating.Enabled = true;
+                Refresh.Visible = true;
+                Rating.Visible = true;
+                MessageBox.Show("Вы выиграли", "");
+            }
         }
 
         private void Keybord(object sender, KeyEventArgs e)
@@ -377,9 +421,7 @@ namespace _2048
 
             }
             if (flag) { GenerateNewCell();}
-            //GameOverDown = true; GameOverLeft = true; GameOverRight = true; GameOverUp = true;
-            if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) 
-            { GameOverWindow(); GameFalse(); }
+            if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); GameFalse(); }
         }
 
         private void Refresh_Click(object sender, EventArgs e)
