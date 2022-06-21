@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game4));
             this.Score_Name = new System.Windows.Forms.Label();
             this.Score_ = new System.Windows.Forms.Label();
+            this.Rating = new System.Windows.Forms.Button();
+            this.Refresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Score_Name
@@ -54,10 +56,39 @@
             this.Score_.TabIndex = 1;
             this.Score_.Text = "0";
             // 
+            // Rating
+            // 
+            this.Rating.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Rating.BackgroundImage")));
+            this.Rating.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Rating.CausesValidation = false;
+            this.Rating.Location = new System.Drawing.Point(245, 46);
+            this.Rating.Name = "Rating";
+            this.Rating.Size = new System.Drawing.Size(44, 30);
+            this.Rating.TabIndex = 2;
+            this.Rating.TabStop = false;
+            this.Rating.UseVisualStyleBackColor = true;
+            this.Rating.Visible = false;
+            // 
+            // Refresh
+            // 
+            this.Refresh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Refresh.BackgroundImage")));
+            this.Refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Refresh.CausesValidation = false;
+            this.Refresh.Location = new System.Drawing.Point(245, 82);
+            this.Refresh.Name = "Refresh";
+            this.Refresh.Size = new System.Drawing.Size(44, 25);
+            this.Refresh.TabIndex = 3;
+            this.Refresh.TabStop = false;
+            this.Refresh.UseVisualStyleBackColor = true;
+            this.Refresh.Visible = false;
+            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            // 
             // Game4
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(174)))), ((int)(((byte)(163)))));
-            this.ClientSize = new System.Drawing.Size(260, 278);
+            this.ClientSize = new System.Drawing.Size(301, 278);
+            this.Controls.Add(this.Refresh);
+            this.Controls.Add(this.Rating);
             this.Controls.Add(this.Score_);
             this.Controls.Add(this.Score_Name);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -73,6 +104,8 @@
 
         private System.Windows.Forms.Label Score_Name;
         private System.Windows.Forms.Label Score_;
+        private System.Windows.Forms.Button Rating;
+        private new System.Windows.Forms.Button Refresh;
     }
 }
 

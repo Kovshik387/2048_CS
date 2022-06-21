@@ -15,19 +15,56 @@ namespace _2048
         private int[,] Field = new int[4, 4]; // игровое поле
         private Label[,] Labels = new Label[4,4]; // поле значений 
         private PictureBox[,] pics = new PictureBox[4, 4];
-
-        
-
         private int score = 0;
-
-        
+        bool GameOverLeft, GameOverRight, GameOverUp, GameOverDown;
 
         public Game4()
         {
             InitializeComponent();
+            Game2048();
+        }
+
+        private void Game2048()
+        {
+            GameFalse();
             this.KeyDown += new KeyEventHandler(Keybord);
             CreateMap();
+            RefreshGame();
             CreateObject();
+        }
+
+        private void GameOverWindow()
+        {
+            MessageBox.Show("Конец Игры!", ":(");
+            Refresh.Enabled = true;
+            Rating.Enabled = true;
+            Refresh.Visible = true;
+            Rating.Visible = true;
+        }
+
+        private void GameFalse()
+        {
+            GameOverLeft = false; GameOverRight = false; GameOverUp = false; GameOverDown = false;
+        }
+
+        private void RefreshGame()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    Field[i, j] = 0;
+                    this.Controls.Remove(pics[i, j]);
+                    this.Controls.Remove(Labels[i, j]);
+                    pics[i, j] = null;
+                }
+            }
+            score = 0;
+            Score_.Text = score.ToString();
+            Refresh.Visible = false;
+            Rating.Visible = false;
+            Refresh.Enabled = false;
+            Rating.Enabled = false;
         }
 
         private void CreateMap()
@@ -50,6 +87,7 @@ namespace _2048
             // Первый квадрат
             int NumA = random.Next(0, 4);
             int NumB = random.Next(0, 4);
+
             while (pics[NumA, NumB] != null)
             {
                 NumA = random.Next(0, 4);
@@ -70,7 +108,7 @@ namespace _2048
             this.Controls.Add(pics[NumA, NumB]);
             pics[NumA, NumB].BringToFront();
 
-
+            
             //Второй квадрат
             int BeginA = random.Next(0, 4);
             int BeginB = random.Next(0, 4);
@@ -79,7 +117,6 @@ namespace _2048
                 BeginA = random.Next(0, 4);
                 BeginB = random.Next(0, 4);
             }
-
 
             Field[BeginA, BeginB] = 1;
 
@@ -100,9 +137,7 @@ namespace _2048
         {
 
             Random random = new Random();
-
-            bool GameOver = false;
-            
+                                  
             int NumA = random.Next(0, 4);
             int NumB = random.Next(0, 4);
             while (pics[NumA, NumB] != null)
@@ -141,12 +176,13 @@ namespace _2048
         private void Keybord(object sender, KeyEventArgs e)
         {
             bool flag = false;
-            int GameOverCounter = 0;
 
-            switch(e.KeyCode.ToString())
+            if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); }
+
+            switch (e.KeyCode.ToString())
             {
                 case "Right":
-
+                    
                     for (int j = 0; j < 4; j++)
                     {
                         for (int ij = 2; ij >= 0; ij--)
@@ -158,6 +194,7 @@ namespace _2048
                                     if (Field[j,i] == 0)
                                     {
                                         flag = true;
+                                        GameOverRight = false;
                                         Field[j, i - 1] = 0;
                                         Field[j, i] = 1;
                                         pics[j, i] = pics[j, i - 1];
@@ -173,6 +210,7 @@ namespace _2048
                                         if (NumA == NumB)
                                         {
                                             flag = true;
+                                            GameFalse();
                                             score += NumA + NumB;
                                             Score_.Text = score.ToString();
                                             ChangeColor(NumA + NumB, j, i);
@@ -183,6 +221,7 @@ namespace _2048
                                             pics[j, i - 1] = null;
                                             Labels[j, i - 1] = null;
                                         }
+                                        else GameOverRight = true;
                                     }
                                 }
                             }
@@ -203,6 +242,7 @@ namespace _2048
                                     if (Field[j, i] == 0)
                                     {
                                         flag = true;
+                                        GameFalse();
                                         Field[j, i + 1] = 0;
                                         Field[j, i] = 1;
                                         pics[j, i] = pics[j, i + 1];
@@ -218,6 +258,7 @@ namespace _2048
                                         if (NumA == NumB)
                                         {
                                             flag = true;
+                                            GameFalse();
                                             score += NumA + NumB;
                                             Score_.Text = score.ToString();
                                             ChangeColor(NumA + NumB, j, i);
@@ -228,7 +269,9 @@ namespace _2048
                                             pics[j, i + 1] = null;
                                             Labels[j, i + 1] = null;
                                         }
+                                        else GameOverLeft = true;
                                     }
+                                    
                                 }
                             }
                         }
@@ -248,6 +291,7 @@ namespace _2048
                                     if (Field[i, ij] == 0)
                                     {
                                         flag = true;
+                                        GameFalse();
                                         Field[i - 1, ij] = 0;
                                         Field[i, ij] = 1;
                                         pics[i, ij] = pics[i - 1, ij];
@@ -263,6 +307,7 @@ namespace _2048
                                         if (NumA == NumB)
                                         {
                                             flag = true;
+                                            GameOverDown = false;
                                             score += NumA + NumB;
                                             Score_.Text = score.ToString();
                                             ChangeColor(NumA + NumB, i, ij);
@@ -273,10 +318,10 @@ namespace _2048
                                             pics[i - 1, ij] = null;
                                             Labels[i - 1, ij] = null;
                                         }
+                                        else GameOverDown = true;
                                     }
                                 }
                             }
-                           
                         }
                     }
                     break;  //15
@@ -294,6 +339,7 @@ namespace _2048
                                 {
                                     if (Field[i, ij] == 0)
                                     {
+                                        GameFalse();
                                         flag = true;
                                         Field[i +1 , ij] = 0;
                                         Field[i, ij] = 1;
@@ -306,13 +352,14 @@ namespace _2048
                                     else
                                     {
                                         int NumA = int.Parse(Labels[i, ij].Text);
-                                        int NumB = int.Parse(Labels[i + 1, ij].Text);                                      
+                                        int NumB = int.Parse(Labels[i + 1, ij].Text);
                                         if (NumA == NumB)
                                         {
+                                            GameFalse();
                                             flag = true;
                                             score += NumA + NumB;
                                             Score_.Text = score.ToString();
-                                            ChangeColor(NumA + NumB, i,ij);
+                                            ChangeColor(NumA + NumB, i, ij);
                                             Labels[i, ij].Text = (NumB + NumA).ToString();
                                             Field[i + 1, ij] = 0;
                                             this.Controls.Remove(pics[i + 1, ij]);
@@ -320,19 +367,25 @@ namespace _2048
                                             pics[i + 1, ij] = null;
                                             Labels[i + 1, ij] = null;
                                         }
+                                        else GameOverUp = true;
                                     }
                                 }
                             }
-                            
                         }
                     }
                     break;  //15
 
             }
-            if (flag) GenerateNewCell();
-            if (GameOverCounter == 4) MessageBox.Show("Вы проиграли", ":)");
+            if (flag) { GenerateNewCell();}
+            //GameOverDown = true; GameOverLeft = true; GameOverRight = true; GameOverUp = true;
+            if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) 
+            { GameOverWindow(); GameFalse(); }
         }
 
-
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            RefreshGame();
+            Game2048();
+        }
     }
 }
