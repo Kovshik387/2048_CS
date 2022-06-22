@@ -229,7 +229,7 @@ namespace _2048
                 pics[a, b].Size = new Size(i * 10, i * 10);
             }
         }
-
+        //
         private void Start_Game_Click(object sender, EventArgs e)
         {
             Start_Game.Visible  = false;
