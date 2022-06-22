@@ -19,7 +19,8 @@ namespace _2048
         private Label[,] Labels = new Label[4,4];
         private PictureBox[,] pics = new PictureBox[4, 4];
         private int score = 0;
-        bool GameOverLeft, GameOverRight, GameOverUp, GameOverDown;
+        bool GameOverLeft, GameOverRight, GameOverUp, GameOverDown; // old
+        bool GameOver;
         public static string NameProfile;
 
         public Game4()
@@ -57,6 +58,54 @@ namespace _2048
         private void GameFalse()
         {
             GameOverLeft = false; GameOverRight = false; GameOverUp = false; GameOverDown = false;
+        }
+
+        public void checkGameOver()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (i - 1 >= 0)
+                    {
+                        if (Field[i - 1,j] == Field[i,j])
+                        {
+                            return;
+                        }
+                    }
+
+                    if (i + 1 < 4)
+                    {
+                        if (Field[i + 1,j] == Field[i,j])
+                        {
+                            return;
+                        }
+                    }
+
+                    if (j - 1 >= 0)
+                    {
+                        if (Field[i,j - 1] == Field[i,j])
+                        {
+                            return;
+                        }
+                    }
+
+                    if (j + 1 < 4)
+                    {
+                        if (Field[i,j + 1] == Field[i,j])
+                        {
+                            return;
+                        }
+                    }
+
+                    if (Field[i,j] == 0)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            GameOver = true;
         }
 
         private void RefreshGame()
@@ -168,7 +217,7 @@ namespace _2048
             Labels[NumA, NumB] = new Label();
 
             Task.Run(() => AnimationFront(NumA, NumB));
-
+            
             Labels[NumA, NumB].Text = "2";
             Labels[NumA, NumB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
             pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
@@ -245,7 +294,6 @@ namespace _2048
             switch (e.KeyCode.ToString())
             {
                 case "Right":
-                    
                     for (int j = 0; j < 4; j++)
                     {
                         for (int ij = 2; ij >= 0; ij--)
@@ -254,7 +302,7 @@ namespace _2048
                             {
                                 for (int i = ij + 1; i < 4; i++)
                                 {
-                                    if (Field[j,i] == 0)
+                                    if (Field[j, i] == 0)
                                     {
                                         flag = true;
                                         GameOverRight = false;
@@ -290,7 +338,8 @@ namespace _2048
                             }
                         }
                     }
-                    break;  //15
+                    break;  //15 old
+
 
                 case "Left":
 
@@ -398,16 +447,16 @@ namespace _2048
                         {
                             if (Field[j, ij] == 1)
                             {
-                                for (int i = j -1 ; i >= 0; i--)
+                                for (int i = j - 1; i >= 0; i--)
                                 {
                                     if (Field[i, ij] == 0)
                                     {
                                         GameFalse();
                                         flag = true;
-                                        Field[i +1 , ij] = 0;
+                                        Field[i + 1, ij] = 0;
                                         Field[i, ij] = 1;
                                         pics[i, ij] = pics[i + 1, ij];
-                                        pics[i +1 , ij] = null;
+                                        pics[i + 1, ij] = null;
                                         Labels[i, ij] = Labels[i + 1, ij];
                                         Labels[i + 1, ij] = null;
                                         pics[i, ij].Location = new Point(pics[i, ij].Location.X, pics[i, ij].Location.Y - 56);
@@ -436,11 +485,13 @@ namespace _2048
                             }
                         }
                     }
-                    break;  //15
+                    break;  //15  // old
+
 
             }
-            if (flag) { GenerateNewCell(); Thread.Sleep(11); }
+            if (flag) { GenerateNewCell(); }
             if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); GameFalse(); }
+            Thread.Sleep(12);
         }
 
         private void Refresh_Click(object sender, EventArgs e)
