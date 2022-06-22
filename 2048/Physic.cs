@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using _2048;
@@ -30,7 +31,7 @@ namespace _2048
         private void Game2048()
         {
             GameFalse();
-            this.KeyDown += new KeyEventHandler(Keybord);
+            this.KeyUp += new KeyEventHandler(Keybord);
             CreateMap();
             RefreshGame();
             CreateObject();
@@ -74,6 +75,8 @@ namespace _2048
             Score_.Text = score.ToString();
             Refresh.Visible = false;
             Refresh.Enabled = false;
+            Rating.Visible  = false;
+            Rating.Enabled  = false;
         }
 
         private void CreateMap()
@@ -159,14 +162,28 @@ namespace _2048
             pics[NumA, NumB] = new PictureBox();
             Labels[NumA, NumB] = new Label();
             Labels[NumA, NumB].Text = "2";
-            Labels[NumA, NumB].Size = new Size(50, 50);
             Labels[NumA, NumB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
             pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
             pics[NumA, NumB].Location = new Point(12 + NumB * 56, 46 + NumA * 56);
-            pics[NumA, NumB].Size = new Size(50, 50);
+
+            //pics[NumA, NumB].Size = new Size(50, 50);
+
+            Task.Run(() => AnimationFront(NumA, NumB));
+
             pics[NumA, NumB].BackColor = Color.FromArgb(239, 227, 215);
             this.Controls.Add(pics[NumA, NumB]);
             pics[NumA, NumB].BringToFront();
+            
+        }
+
+        private void AnimationFront(int a, int b)
+        {
+            for (int i = 1; i < 6; i++)
+            {
+                Thread.Sleep(2);
+                
+                pics[a, b].Size = new Size(i * 10, i * 10);
+            }
         }
 
         private void Start_Game_Click(object sender, EventArgs e)
@@ -197,12 +214,12 @@ namespace _2048
 
         private void ChangeColor(int sum,int j, int i)
         {
-            if (sum % 1024 == 0)     pics[j, i].BackColor  = Color.FromArgb(239, 197, 63);
+            if (sum % 1024 == 0)     pics[j, i].BackColor  = Color.FromArgb(239, 197,  63);
             else if (sum % 512 == 0) pics[j, i].BackColor  = Color.FromArgb(233, 199, 101);
-            else if (sum % 256 == 0) pics[j, i].BackColor  = Color.FromArgb(234, 195, 86);
+            else if (sum % 256 == 0) pics[j, i].BackColor  = Color.FromArgb(234, 195,  86);
             else if (sum % 128 == 0) pics[j, i].BackColor  = Color.FromArgb(233, 199, 101);
-            else if (sum % 64 == 0)  pics[j, i].BackColor  = Color.FromArgb(247, 94, 60);
-            else if (sum % 32 == 0)  pics[j, i].BackColor  = Color.FromArgb(245, 124, 95);
+            else if (sum % 64 == 0)  pics[j, i].BackColor  = Color.FromArgb(247, 94,   60);
+            else if (sum % 32 == 0)  pics[j, i].BackColor  = Color.FromArgb(245, 124,  95);
             else if (sum % 16 == 0)  pics[j, i].BackColor  = Color.FromArgb(245, 149, 101);
             else if (sum % 8 == 0)   pics[j, i].BackColor  = Color.FromArgb(242, 177, 121);
             else if (sum % 4 == 0)   pics[j, i].BackColor  = Color.FromArgb(238, 223, 202);
@@ -420,7 +437,7 @@ namespace _2048
                     break;  //15
 
             }
-            if (flag) { GenerateNewCell();}
+            if (flag) { GenerateNewCell(); }
             if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); GameFalse(); }
         }
 

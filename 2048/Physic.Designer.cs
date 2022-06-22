@@ -117,6 +117,7 @@
             this.Controls.Add(this.Score_);
             this.Controls.Add(this.Score_Name);
             this.Controls.Add(this.Start_Game);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(317, 317);
