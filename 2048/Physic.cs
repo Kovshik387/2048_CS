@@ -84,10 +84,12 @@ namespace _2048
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                 {
-                    PictureBox pics = new PictureBox();
-                    pics.Location = new Point(12+56*j, 46+ 56*i);
-                    pics.Size = new Size(50, 50);
-                    pics.BackColor  = Color.FromArgb(205, 191, 180);
+                    PictureBox pics = new PictureBox
+                    {
+                        Location = new Point(12 + 56 * j, 46 + 56 * i),
+                        Size = new Size(50, 50),
+                        BackColor = Color.FromArgb(205, 191, 180)
+                    };
                     this.Controls.Add(pics);
                 }
         }
@@ -109,10 +111,12 @@ namespace _2048
             Field[NumA, NumB] = 1;
 
             pics[NumA, NumB] = new PictureBox();
-            Labels[NumA, NumB] = new Label();
-            Labels[NumA, NumB].Text = "2";
-            Labels[NumA, NumB].Size = new Size(50, 50);
-            Labels[NumA, NumB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
+            Labels[NumA, NumB] = new Label
+            {
+                Text = "2",
+                Size = new Size(50, 50),
+                Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15)
+            };
             pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
             pics[NumA, NumB].Location = new Point(12 + NumB * 56, 46 + NumA * 56);
             pics[NumA, NumB].Size = new Size(50, 50);
@@ -133,10 +137,12 @@ namespace _2048
             Field[BeginA, BeginB] = 1;
 
             pics[BeginA, BeginB] = new PictureBox();
-            Labels[BeginA, BeginB] = new Label();
-            Labels[BeginA, BeginB].Text = "2";
-            Labels[BeginA, BeginB].Size = new Size(50, 50);
-            Labels[BeginA, BeginB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
+            Labels[BeginA, BeginB] = new Label
+            {
+                Text = "2",
+                Size = new Size(50, 50),
+                Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15)
+            };
             pics[BeginA, BeginB].Controls.Add(Labels[BeginA, BeginB]);
             pics[BeginA, BeginB].Location = new Point(12 + 56 * BeginB, 46 + 56 * BeginA);
             pics[BeginA, BeginB].Size = new Size(50, 50);
@@ -147,7 +153,6 @@ namespace _2048
 
         private void GenerateNewCell()
         {
-
             Random random = new Random();
                                   
             int NumA = random.Next(0, 4);
@@ -157,23 +162,20 @@ namespace _2048
                 NumA = random.Next(0, 4);
                 NumB = random.Next(0, 4);
             }
-                       
+
             Field[NumA, NumB] = 1;
             pics[NumA, NumB] = new PictureBox();
             Labels[NumA, NumB] = new Label();
+
+            Task.Run(() => AnimationFront(NumA, NumB));
+
             Labels[NumA, NumB].Text = "2";
             Labels[NumA, NumB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
             pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
             pics[NumA, NumB].Location = new Point(12 + NumB * 56, 46 + NumA * 56);
-
-            //pics[NumA, NumB].Size = new Size(50, 50);
-
-            Task.Run(() => AnimationFront(NumA, NumB));
-
             pics[NumA, NumB].BackColor = Color.FromArgb(239, 227, 215);
             this.Controls.Add(pics[NumA, NumB]);
             pics[NumA, NumB].BringToFront();
-            
         }
 
         private void AnimationFront(int a, int b)
@@ -437,7 +439,7 @@ namespace _2048
                     break;  //15
 
             }
-            if (flag) { GenerateNewCell(); }
+            if (flag) { GenerateNewCell(); Thread.Sleep(11); }
             if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); GameFalse(); }
         }
 
