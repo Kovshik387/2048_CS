@@ -20,19 +20,23 @@ namespace _2048
         private PictureBox[,] pics = new PictureBox[4, 4];
         private int score = 0;
         bool GameOverLeft, GameOverRight, GameOverUp, GameOverDown; // old
-        bool GameOver;
         public static string NameProfile;
 
         public Game4()
         {
             InitializeComponent();
             Game2048();
+            this.KeyDown += new KeyEventHandler(Keybord);
+        }
+
+        ~Game4()
+        {
+            Application.Exit();
         }
 
         private void Game2048()
         {
             GameFalse();
-            this.KeyUp += new KeyEventHandler(Keybord);
             CreateMap();
             RefreshGame();
             CreateObject();
@@ -155,36 +159,73 @@ namespace _2048
         private void GenerateNewCell()
         {
             Random random = new Random();
-                                  
-            int NumA = random.Next(0, 4);
-            int NumB = random.Next(0, 4);
-            while (pics[NumA, NumB] != null)
+
+            int or = random.Next(0, 10);
+
+            if (or == 8)
             {
-                NumA = random.Next(0, 4);
-                NumB = random.Next(0, 4);
+                int NumA = random.Next(0, 4);
+                int NumB = random.Next(0, 4);
+                while (pics[NumA, NumB] != null)
+                {
+                    NumA = random.Next(0, 4);
+                    NumB = random.Next(0, 4);
+                }
+
+                Field[NumA, NumB] = 1;
+                pics[NumA, NumB] = new PictureBox();
+                Labels[NumA, NumB] = new Label();
+
+                Task task = Task.Factory.StartNew(() => AnimationFront(NumA, NumB));
+
+                Labels[NumA, NumB].Text = "4";
+                Labels[NumA, NumB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
+                pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
+                pics[NumA, NumB].Location = new Point(12 + NumB * 56, 46 + NumA * 56);
+                pics[NumA, NumB].BackColor = Color.FromArgb(238, 223, 202);
+                this.Controls.Add(pics[NumA, NumB]);
+                
+                pics[NumA, NumB].BringToFront();
             }
+            else
+            {
+                int NumA = random.Next(0, 4);
+                int NumB = random.Next(0, 4);
+                while (pics[NumA, NumB] != null)
+                {
+                    NumA = random.Next(0, 4);
+                    NumB = random.Next(0, 4);
+                }
 
-            Field[NumA, NumB] = 1;
-            pics[NumA, NumB] = new PictureBox();
-            Labels[NumA, NumB] = new Label();
+                Field[NumA, NumB] = 1;
 
-            Task.Run(() => AnimationFront(NumA, NumB));
-            
-            Labels[NumA, NumB].Text = "2";
-            Labels[NumA, NumB].Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15);
-            pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
-            pics[NumA, NumB].Location = new Point(12 + NumB * 56, 46 + NumA * 56);
-            pics[NumA, NumB].BackColor = Color.FromArgb(239, 227, 215);
-            this.Controls.Add(pics[NumA, NumB]);
-            pics[NumA, NumB].BringToFront();
+                pics[NumA, NumB] = new PictureBox();
+                Labels[NumA, NumB] = new Label
+                {
+                    Text = "2",
+                    Font = new Font(new FontFamily("Cascadia Code SemiBold"), 15)
+                };
+
+                Task task = Task.Factory.StartNew(() => AnimationFront(NumA, NumB));
+                                                
+                pics[NumA, NumB].Controls.Add(Labels[NumA, NumB]);
+                pics[NumA, NumB].Location = new Point(12 + NumB * 56, 46 + NumA * 56);
+                pics[NumA, NumB].BackColor = Color.FromArgb(239, 227, 215);
+
+                this.Controls.Add(pics[NumA, NumB]);
+
+                pics[NumA, NumB].BringToFront();
+
+                Task.WaitAll(task);
+                
+            }
         }
 
-        private void AnimationFront(int a, int b)
+        void AnimationFront(int a, int b)
         {
             for (int i = 1; i < 6; i++)
             {
-                Thread.Sleep(2);
-                
+                Thread.Sleep(3);
                 pics[a, b].Size = new Size(i * 10, i * 10);
             }
         }
@@ -439,11 +480,10 @@ namespace _2048
                     }
                     break;  //15  // old
 
-
             }
-            if (flag) { GenerateNewCell(); }
+            
+            if (flag) { GenerateNewCell();  }
             if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); GameFalse(); }
-            Thread.Sleep(12);
         }
 
         private void Refresh_Click(object sender, EventArgs e)
