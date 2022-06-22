@@ -60,54 +60,6 @@ namespace _2048
             GameOverLeft = false; GameOverRight = false; GameOverUp = false; GameOverDown = false;
         }
 
-        public void checkGameOver()
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (i - 1 >= 0)
-                    {
-                        if (Field[i - 1,j] == Field[i,j])
-                        {
-                            return;
-                        }
-                    }
-
-                    if (i + 1 < 4)
-                    {
-                        if (Field[i + 1,j] == Field[i,j])
-                        {
-                            return;
-                        }
-                    }
-
-                    if (j - 1 >= 0)
-                    {
-                        if (Field[i,j - 1] == Field[i,j])
-                        {
-                            return;
-                        }
-                    }
-
-                    if (j + 1 < 4)
-                    {
-                        if (Field[i,j + 1] == Field[i,j])
-                        {
-                            return;
-                        }
-                    }
-
-                    if (Field[i,j] == 0)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            GameOver = true;
-        }
-
         private void RefreshGame()
         {
             for (int i = 0; i < 4; i++)
