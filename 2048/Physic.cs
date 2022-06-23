@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using _2048;
 using System.IO;
+using System.Media;
 
 namespace _2048
 {
@@ -21,6 +22,18 @@ namespace _2048
         private int score = 0;
         bool GameOverLeft, GameOverRight, GameOverUp, GameOverDown; // old
         public static string NameProfile;
+
+
+        private void Volume()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            System.IO.Stream resourses = assembly.GetManifestResourceStream("..//..//assets/sound.wav");
+
+            SoundPlayer player = new SoundPlayer("..//..//assets/sound.wav");
+
+            player.Play();
+        }
 
         public Game4()
         {
@@ -330,6 +343,7 @@ namespace _2048
                                 {
                                     if (Field[j, i] == 0)
                                     {
+                                        Volume();
                                         flag = true;
                                         GameOverRight = false;
                                         Field[j, i - 1] = 0;
@@ -346,6 +360,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[j, i - 1].Text);
                                         if (NumA == NumB)
                                         {
+                                            Volume();
                                             flag = true;
                                             GameFalse();
                                             score += NumA + NumB;
@@ -379,6 +394,7 @@ namespace _2048
                                 {
                                     if (Field[j, i] == 0)
                                     {
+                                        Volume();
                                         flag = true;
                                         GameFalse();
                                         Field[j, i + 1] = 0;
@@ -395,6 +411,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[j, i + 1].Text);
                                         if (NumA == NumB)
                                         {
+                                            Volume();
                                             flag = true;
                                             GameFalse();
                                             score += NumA + NumB;
@@ -428,6 +445,7 @@ namespace _2048
                                 {
                                     if (Field[i, ij] == 0)
                                     {
+                                        Volume();
                                         flag = true;
                                         GameFalse();
                                         Field[i - 1, ij] = 0;
@@ -444,6 +462,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[i - 1, ij].Text);
                                         if (NumA == NumB)
                                         {
+                                            Volume();
                                             flag = true;
                                             GameOverDown = false;
                                             score += NumA + NumB;
@@ -477,6 +496,7 @@ namespace _2048
                                 {
                                     if (Field[i, ij] == 0)
                                     {
+                                        Volume();
                                         GameFalse();
                                         flag = true;
                                         Field[i + 1, ij] = 0;
@@ -493,6 +513,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[i + 1, ij].Text);
                                         if (NumA == NumB)
                                         {
+                                            Volume();
                                             GameFalse();
                                             flag = true;
                                             score += NumA + NumB;
