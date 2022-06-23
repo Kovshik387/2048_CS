@@ -26,10 +26,6 @@ namespace _2048
 
         private void Volume()
         {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-
-            System.IO.Stream resourses = assembly.GetManifestResourceStream("..//..//assets/sound.wav");
-
             SoundPlayer player = new SoundPlayer("..//..//assets/sound.wav");
 
             player.Play();
@@ -84,7 +80,6 @@ namespace _2048
 
                     if (NameProfile == leaders_temp[i])
                     {
-                        MessageBox.Show("Вошёл", "УРА");
                         if (score > int.Parse(leaders_NewTemp[i]))
                         {
                             leaders.RemoveAt(i);
