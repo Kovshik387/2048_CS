@@ -343,7 +343,7 @@ namespace _2048
                                 {
                                     if (Field[j, i] == 0)
                                     {
-                                        Volume();
+                                        
                                         flag = true;
                                         GameOverRight = false;
                                         Field[j, i - 1] = 0;
@@ -353,6 +353,7 @@ namespace _2048
                                         Labels[j, i] = Labels[j, i - 1];
                                         Labels[j, i - 1] = null;
                                         pics[j, i].Location = new Point(pics[j, i].Location.X + 56, pics[j, i].Location.Y);
+                                        Volume();
                                     }
                                     else
                                     {
@@ -360,7 +361,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[j, i - 1].Text);
                                         if (NumA == NumB)
                                         {
-                                            Volume();
+                                            
                                             flag = true;
                                             GameFalse();
                                             score += NumA + NumB;
@@ -372,6 +373,7 @@ namespace _2048
                                             this.Controls.Remove(Labels[j, i - 1]);
                                             pics[j, i - 1] = null;
                                             Labels[j, i - 1] = null;
+                                            Volume();
                                         }
                                         else GameOverRight = true;
                                     }
@@ -394,7 +396,7 @@ namespace _2048
                                 {
                                     if (Field[j, i] == 0)
                                     {
-                                        Volume();
+                                        
                                         flag = true;
                                         GameFalse();
                                         Field[j, i + 1] = 0;
@@ -404,6 +406,7 @@ namespace _2048
                                         Labels[j, i] = Labels[j, i + 1];
                                         Labels[j, i + 1] = null;
                                         pics[j, i].Location = new Point(pics[j, i].Location.X - 56, pics[j, i].Location.Y);
+                                        Volume();
                                     }
                                     else
                                     {
@@ -411,7 +414,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[j, i + 1].Text);
                                         if (NumA == NumB)
                                         {
-                                            Volume();
+                                            
                                             flag = true;
                                             GameFalse();
                                             score += NumA + NumB;
@@ -423,6 +426,7 @@ namespace _2048
                                             this.Controls.Remove(Labels[j, i + 1]);
                                             pics[j, i + 1] = null;
                                             Labels[j, i + 1] = null;
+                                            Volume();
                                         }
                                         else GameOverLeft = true;
                                     }
@@ -445,7 +449,7 @@ namespace _2048
                                 {
                                     if (Field[i, ij] == 0)
                                     {
-                                        Volume();
+                                        
                                         flag = true;
                                         GameFalse();
                                         Field[i - 1, ij] = 0;
@@ -455,6 +459,7 @@ namespace _2048
                                         Labels[i, ij] = Labels[i - 1, ij];
                                         Labels[i - 1, ij] = null;
                                         pics[i, ij].Location = new Point(pics[i, ij].Location.X, pics[i, ij].Location.Y + 56);
+                                        Volume();
                                     }
                                     else
                                     {
@@ -462,7 +467,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[i - 1, ij].Text);
                                         if (NumA == NumB)
                                         {
-                                            Volume();
+                                            
                                             flag = true;
                                             GameOverDown = false;
                                             score += NumA + NumB;
@@ -474,6 +479,7 @@ namespace _2048
                                             this.Controls.Remove(Labels[i - 1, ij]);
                                             pics[i - 1, ij] = null;
                                             Labels[i - 1, ij] = null;
+                                            Volume();
                                         }
                                         else GameOverDown = true;
                                     }
@@ -496,7 +502,7 @@ namespace _2048
                                 {
                                     if (Field[i, ij] == 0)
                                     {
-                                        Volume();
+                                        
                                         GameFalse();
                                         flag = true;
                                         Field[i + 1, ij] = 0;
@@ -506,6 +512,7 @@ namespace _2048
                                         Labels[i, ij] = Labels[i + 1, ij];
                                         Labels[i + 1, ij] = null;
                                         pics[i, ij].Location = new Point(pics[i, ij].Location.X, pics[i, ij].Location.Y - 56);
+                                        Volume();
                                     }
                                     else
                                     {
@@ -513,7 +520,7 @@ namespace _2048
                                         int NumB = int.Parse(Labels[i + 1, ij].Text);
                                         if (NumA == NumB)
                                         {
-                                            Volume();
+                                           
                                             GameFalse();
                                             flag = true;
                                             score += NumA + NumB;
@@ -525,6 +532,7 @@ namespace _2048
                                             this.Controls.Remove(Labels[i + 1, ij]);
                                             pics[i + 1, ij] = null;
                                             Labels[i + 1, ij] = null;
+                                            Volume();
                                         }
                                         else GameOverUp = true;
                                     }
