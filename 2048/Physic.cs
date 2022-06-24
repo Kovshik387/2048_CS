@@ -46,7 +46,39 @@ namespace _2048
 
             if (NameProfile != null)
             {
-                using (StreamWriter file = new StreamWriter("..//..//scores/Data.txt",true))
+                List<string> leaders = new List<string>();
+                using (StreamReader File = new StreamReader("..//..//scores/Data.txt"))
+                {
+                    string line;
+                    while ((line = File.ReadLine()) != null)
+                        leaders.Add(line);
+                }
+
+                List<string> leaders_temp = new List<string>();
+                List<string> leaders_NewTemp = new List<string>();
+
+                for (int i = 0; i < leaders.Count; i++)
+                {
+                    string[] temp = (leaders[i].Split(new char[] { '\t' }));
+                    leaders_temp.Add(temp[1]);
+                    leaders_NewTemp.Add(temp[0]);
+
+                    if (NameProfile == leaders_temp[i])
+                    {
+                        if (score > int.Parse(leaders_NewTemp[i]))
+                        {
+                            leaders.RemoveAt(i);
+                        }
+                    }
+                }
+
+                using (StreamWriter file = new StreamWriter("..//..//scores/Data.txt", false))
+                {
+                    for (int i = 0; i < leaders.Count; i++)
+                        file.WriteLine(leaders[i]);
+                }
+
+                using (StreamWriter file = new StreamWriter("..//..//scores/Data.txt", true))
                 {
                     file.WriteLine(score.ToString() + "\t" + NameProfile);
                 }
@@ -74,6 +106,8 @@ namespace _2048
             Score_.Text = score.ToString();
             Refresh.Visible = false;
             Refresh.Enabled = false;
+            Rating.Enabled = false;
+            Rating.Visible = false;
         }
 
         private void CreateMap()
