@@ -7,6 +7,7 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        //
         /// <summary>
         /// Освободить все используемые ресурсы.
         /// </summary>
@@ -35,6 +36,7 @@
             this.Refresh = new System.Windows.Forms.Button();
             this.Profile = new System.Windows.Forms.Button();
             this.Start_Game = new System.Windows.Forms.Button();
+            this.Stopp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Score_Name
@@ -107,10 +109,21 @@
             this.Start_Game.UseVisualStyleBackColor = true;
             this.Start_Game.Click += new System.EventHandler(this.Start_Game_Click);
             // 
+            // Stopp
+            // 
+            this.Stopp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Stopp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(174)))), ((int)(((byte)(163)))));
+            this.Stopp.Location = new System.Drawing.Point(263, 243);
+            this.Stopp.Name = "Stopp";
+            this.Stopp.Size = new System.Drawing.Size(26, 23);
+            this.Stopp.TabIndex = 6;
+            this.Stopp.UseVisualStyleBackColor = true;
+            // 
             // Game4
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(174)))), ((int)(((byte)(163)))));
             this.ClientSize = new System.Drawing.Size(301, 278);
+            this.Controls.Add(this.Stopp);
             this.Controls.Add(this.Profile);
             this.Controls.Add(this.Refresh);
             this.Controls.Add(this.Rating);
@@ -137,6 +150,7 @@
         private new System.Windows.Forms.Button Refresh;
         private System.Windows.Forms.Button Profile;
         private System.Windows.Forms.Button Start_Game;
+        private System.Windows.Forms.Button Stopp;
     }
 }
 

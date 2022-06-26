@@ -123,6 +123,8 @@ namespace _2048
             Refresh.Enabled = false;
             Rating.Visible  = false;
             Rating.Enabled  = false;
+            Stopp.Visible = false;
+            Stopp.Enabled = false;
         }
 
         private void CreateMap()
@@ -328,6 +330,10 @@ namespace _2048
             switch (e.KeyCode.ToString())
             {
                 case "Right":
+
+                    Stopp.Enabled = true;
+                    Stopp.Visible = true;
+                    
                     for (int j = 0; j < 4; j++)
                     {
                         for (int ij = 2; ij >= 0; ij--)
@@ -380,6 +386,9 @@ namespace _2048
 
 
                 case "Left":
+
+                    Stopp.Enabled = true;
+                    Stopp.Visible = true;
 
                     for (int j = 0; j < 4; j++)
                     {
@@ -434,6 +443,9 @@ namespace _2048
 
                 case "Down":
 
+                    Stopp.Enabled = true;
+                    Stopp.Visible = true;
+
                     for (int j = 2; j >= 0 ; j--)
                     {
                         for (int ij = 0; ij < 4; ij++)
@@ -486,6 +498,9 @@ namespace _2048
 
 
                 case "Up":
+
+                    Stopp.Enabled = true;
+                    Stopp.Visible = true;
 
                     for (int j = 1; j < 4; j++)
                     {
@@ -541,10 +556,14 @@ namespace _2048
             
             if (flag) { GenerateNewCell();  }
             if ((GameOverDown == true) && (GameOverLeft == true) && (GameOverRight == true) && (GameOverUp == true)) { GameOverWindow(); GameFalse(); }
+
+            Stopp.Visible = false;
+            Stopp.Enabled = false;
         }
 
         private void Refresh_Click(object sender, EventArgs e)
         {
+
             RefreshGame();
             Game2048();
         }
