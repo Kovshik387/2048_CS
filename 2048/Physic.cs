@@ -26,7 +26,7 @@ namespace _2048
 
         private void Volume()
         {
-            SoundPlayer player = new SoundPlayer("..//..//assets/sound.wav");
+            SoundPlayer player = new SoundPlayer("assets/sound.wav");
 
             player.Play();
         }
@@ -87,13 +87,13 @@ namespace _2048
                     }
                 }
 
-                using (StreamWriter file = new StreamWriter("..//..//scores/Data.txt", false))
+                using (StreamWriter file = new StreamWriter("scores/Data.txt", false))
                 {
                     for (int i = 0; i < leaders.Count; i++)
                         file.WriteLine(leaders[i]);
                 }
 
-                using (StreamWriter file = new StreamWriter("..//..//scores/Data.txt",true))
+                using (StreamWriter file = new StreamWriter("scores/Data.txt",true))
                 {
                     file.WriteLine(score.ToString() + "\t" + NameProfile);
                 }

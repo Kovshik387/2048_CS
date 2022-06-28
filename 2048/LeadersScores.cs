@@ -15,7 +15,7 @@ namespace _2048
         public void SeeLeaders()
         {
             List<string> leaders = new List<string>();
-            using (StreamReader File = new StreamReader("..//..//scores/Data.txt"))
+            using (StreamReader File = new StreamReader("scores/Data.txt"))
             {
                 string line;
                 while ((line = File.ReadLine()) != null)
